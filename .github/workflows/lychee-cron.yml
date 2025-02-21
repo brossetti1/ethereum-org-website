@@ -1,5 +1,5 @@
 # Workflow name
-name: Check Links In Public Directory
+name: Check Links In Public  Directory
 
 on:
   schedule:
