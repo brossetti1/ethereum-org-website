@@ -1,0 +1,45 @@
+# Workflow name
+name: Check Links In Public Directory
+
+on:
+  schedule:
+    - cron: "0 0 1 * *" # Monthly run on the 1st day of every month at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Check links in /public
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: |
+            /public/
+            --verbose
+            --exclude-all-private
+            --exclude "ethereum\.org"
+            --exclude "github\.com"
+            --format detailed
+        continue-on-error: true
+
+      - name: Provide helpful failure message
+        if: failure()
+        run: |
+          echo "::error::Link check failed! Please review the broken links reported above."
+          echo ""
+          echo "If certain links are valid but fail due to:"
+          echo "- CAPTCHA challenges"
+          echo "- IP blocking"
+          echo "- Authentication requirements"
+          echo "- Rate limiting"
+          echo ""
+          echo "Consider adding them to .lycheeignore to bypass future checks."
+          echo "Format: Add one URL pattern per line"
+          exit 1
