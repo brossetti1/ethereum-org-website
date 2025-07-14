@@ -65,3 +65,10 @@ src/data/crowdin/bucketsAwaitingReviewReport.csv
 build-storybook.log
 build-archive.log
 storybook-static
+
+.claude/commands/fix-broken-links.md
+.claude/commands/fix-broken-links-refined.md
+lychee-test.txt
+.claude/settings.local.json
+tmp/fix-broken-links/definite_replacements.md
+tmp/fix-broken-links/suggestions.md
